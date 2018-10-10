@@ -1,8 +1,7 @@
-setwd('/Users/corban_nemeth/documents/github/tidytuesday')
+setwd('/Users/corban_nemeth/documents/github/tidytuesday/Week 28')
 
 library(tidyverse)
 library(reshape2)
-library(lubridate)
 library(scales)
 library(ggthemes)
 library(ggalt)
@@ -24,7 +23,7 @@ turnoutData <- left_join(turnoutData, partisan.lean, by = "state")
 turnoutData <- turnoutData %>%
   mutate(turnout_percent = (votes / eligible_voters)) %>% #calculate % turnout
   group_by(state) %>%
-  filter(sum(is.na(turnout_percent))<9)%>% #filters years with missing observations
+  filter(sum(is.na(turnout_percent))<9)%>% #filters states with missing observations
   group_by(state, type, partisan) %>%
   summarize(avg_turnout = mean(turnout_percent, na.rm = TRUE)) %>% #avg turnout by state
   ungroup() %>%
@@ -33,6 +32,7 @@ turnoutData <- turnoutData %>%
 
 turnoutData$state <- factor(turnoutData$state, levels = turnoutData$state[order(desc(turnoutData$president_year))])
 
+#graph building
 gg <- ggplot(turnoutData, aes(x=midterm_year, xend=president_year, y=state, group=state, colour = partisan )) + 
   geom_dumbbell(size=0.75) + 
   scale_x_continuous(label=percent, limits = c(.3, .8)) + 
