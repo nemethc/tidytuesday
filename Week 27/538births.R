@@ -1,4 +1,4 @@
-setwd('/Users/corban_nemeth/documents/github/tidytuesday')
+setwd('/Users/corban_nemeth/documents/github/tidytuesday/Week 27')
 
 library(tidyverse)
 library(lubridate)
@@ -8,7 +8,7 @@ library(ggthemes)
 
 options(scipen = 999)
 
-input.file <- "data/2018-10-02/us_births_2000-2014.csv"
+input.file <- "us_births_2000-2014.csv"
 births.data <- read_csv(input.file)
 
 Holidays <- data.frame(holiday = names(holidays(2000:2014, businessOnly = F)), 

@@ -30,6 +30,7 @@ turnoutData <- turnoutData %>%
   spread(type, avg_turnout) %>%
   filter(state != "United States (Excl. Louisiana)" & state != "United States")
 
+#Define as factor so the values can be used for ranking
 turnoutData$state <- factor(turnoutData$state, levels = turnoutData$state[order(desc(turnoutData$president_year))])
 
 #graph building
