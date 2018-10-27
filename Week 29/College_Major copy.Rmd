@@ -1,0 +1,46 @@
+---
+title: "College_Major"
+author: "Corban Nemeth"
+date: "10/20/2018"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+## College Major
+
+A bit short on time this week, so here's a quick TidyTuesday. This example compares college majors by median earnings after graduation, and the percent of the field that is composed of women. A good excuse to test out interactive charts with the plotly library
+
+
+Here's the plotly chart. 
+
+```{r prep, message = FALSE, warning = FALSE}
+setwd('/Users/corban_nemeth/documents/github/tidytuesday/Week 29')
+
+library(tidyverse)
+library(scales)
+library(plotly)
+
+
+options(scipen = 999)
+
+input.file <- "recent-grads.csv"
+grad.data <- read.csv(input.file)
+
+
+gg <- ggplot(grad.data, aes(x=ShareWomen, y=Median, major = Major)) + 
+  geom_point(aes(col=Major_category, size=Employed)) + 
+  labs(y="Median Earnings", 
+       x="Percent Women", 
+       title="Earnings and Percent Women by College Major", 
+       caption = "Source: TidyTuesday") +
+  scale_y_continuous(labels=dollar_format(prefix="$")) +
+  geom_smooth(aes(group = 1), method="loess", se=TRUE, fullrange=FALSE, level=0.95) +
+  scale_color_viridis_d()
+
+  
+  
+gg <- ggplotly(gg, tooltip = c("major", "Median", "ShareWomen"), height = 600, width=1000)
+gg
+```
+
