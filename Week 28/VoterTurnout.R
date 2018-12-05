@@ -5,6 +5,7 @@ library(reshape2)
 library(scales)
 library(ggthemes)
 library(ggalt)
+library(svglite)
 
 input.file <- "voter_turnout.csv" #from R4DS repo
 input.file2 <- "partisanlean.csv" #from gallup report
@@ -48,4 +49,4 @@ gg <- ggplot(turnoutData, aes(x=midterm_year, xend=president_year, y=state, grou
   theme(plot.caption = element_text(size = 9, face = "italic")) + 
   theme(plot.title = element_text(face = "bold"))
   
-plot(gg)
+ggsave(file="midterms.svg", plot=gg, width=10, height=8)
